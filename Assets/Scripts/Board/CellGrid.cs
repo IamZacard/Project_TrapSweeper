@@ -38,7 +38,8 @@ public class CellGrid
 
             Cell cell = cells[x, y];
 
-            while (cell.type == Cell.Type.Trap || IsAdjacent(startingCell, cell))
+            // Skip cells that are traps, non-walkable (e.g., pillars, shrines), or adjacent to the starting cell
+            while (cell.type == Cell.Type.Trap || cell.type == Cell.Type.Pillar || cell.type == Cell.Type.Shrine || IsAdjacent(startingCell, cell))
             {
                 x++;
 
@@ -47,7 +48,8 @@ public class CellGrid
                     x = 0;
                     y++;
 
-                    if (y >= height) {
+                    if (y >= height)
+                    {
                         y = 0;
                     }
                 }
@@ -153,5 +155,4 @@ public class CellGrid
         return Mathf.Abs(a.position.x - b.position.x) <= 1 &&
                Mathf.Abs(a.position.y - b.position.y) <= 1;
     }
-
 }

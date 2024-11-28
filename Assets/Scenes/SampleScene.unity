@@ -1038,8 +1038,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1641065346}
   - component: {fileID: 1641065345}
+  - component: {fileID: 1641065349}
   - component: {fileID: 1641065347}
   - component: {fileID: 1641065348}
+  - component: {fileID: 1641065350}
   m_Layer: 0
   m_Name: BlankPlayer
   m_TagString: Player
@@ -1127,7 +1129,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stats: {fileID: 11400000, guid: 168241a7b38139749853354e37c5a0ee, type: 2}
-  isActive: 0
   _characterModelScaleNumber: 1.2
   groundTileMap: {fileID: 1817712788}
   roomTileMap: {fileID: 1037116273}
@@ -1181,6 +1182,78 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
+--- !u!61 &1641065349
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1641065344}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!50 &1641065350
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1641065344}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!1 &1817712785
 GameObject:
   m_ObjectHideFlags: 0
@@ -1536,20 +1609,52 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2710916302658770073, guid: a26e52d7f9851ee488f8aea901a2be8f, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 2710916302658770073, guid: a26e52d7f9851ee488f8aea901a2be8f, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3438809801333409286, guid: a26e52d7f9851ee488f8aea901a2be8f, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 3438809801333409286, guid: a26e52d7f9851ee488f8aea901a2be8f, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3438809801333409286, guid: a26e52d7f9851ee488f8aea901a2be8f, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 5107370750433378379, guid: a26e52d7f9851ee488f8aea901a2be8f, type: 3}
+      propertyPath: m_MaxValue
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5848400734073346293, guid: a26e52d7f9851ee488f8aea901a2be8f, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 5848400734073346293, guid: a26e52d7f9851ee488f8aea901a2be8f, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6161265547325840982, guid: a26e52d7f9851ee488f8aea901a2be8f, type: 3}
+      propertyPath: m_MaxValue
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7054357871962270425, guid: a26e52d7f9851ee488f8aea901a2be8f, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 7054357871962270425, guid: a26e52d7f9851ee488f8aea901a2be8f, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7054357871962270425, guid: a26e52d7f9851ee488f8aea901a2be8f, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.01
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1649,6 +1754,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5560323205090441834, guid: 9168d47d8fc76ae418380f29acd4da79, type: 3}
+      propertyPath: volume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5560323205090441834, guid: 9168d47d8fc76ae418380f29acd4da79, type: 3}
       propertyPath: OptionsPanel
       value: 
       objectReference: {fileID: 1295827031}
@@ -1668,6 +1777,10 @@ PrefabInstance:
       propertyPath: effectsVolumeSlider
       value: 
       objectReference: {fileID: 2736084752463165390}
+    - target: {fileID: 5560323205090441834, guid: 9168d47d8fc76ae418380f29acd4da79, type: 3}
+      propertyPath: soundEntries.Array.data[8].audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 4266184bf01307d4581e6f38120c8ebb, type: 3}
     - target: {fileID: 5822829703958514972, guid: 9168d47d8fc76ae418380f29acd4da79, type: 3}
       propertyPath: m_Name
       value: ====GeneralManager===

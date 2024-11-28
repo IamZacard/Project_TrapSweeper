@@ -8,7 +8,7 @@ public abstract class CharacterBase : MonoBehaviour, ICharacterBase
     [Header("CharacterBase")]
     public Stats stats;
     public PlayerMovement controls;
-    public bool isActive;
+    public bool isActive { get; private set; } = true;
 
     private IInteractable _interactable;
     private Vector3 originalScale;
@@ -57,7 +57,12 @@ public abstract class CharacterBase : MonoBehaviour, ICharacterBase
     #region Movement
     public virtual void Move(Vector2 direction)
     {
-        if (!isActive) return; // Prevent movement if the player is not active
+        if (!isActive)
+        {
+            // Play an error sound
+            AudioManager.Instance.PlaySound(AudioManager.SoundType.ErrorSound, 1f);
+            return; // Prevent movement if the player is not active
+        }
 
         // Ensure only one direction is processed at a time
         direction = new Vector2(
@@ -122,8 +127,8 @@ public abstract class CharacterBase : MonoBehaviour, ICharacterBase
         // Snap to final position
         transform.position = SnapPosition(targetPosition);
 
-        // Notify Game script
-        Game game = FindObjectOfType<Game>();
+        // Notify GamePlay script
+        GamePlay game = FindObjectOfType<GamePlay>();
         if (game != null)
         {
             game.PlayerMoved(transform.position);
@@ -135,6 +140,8 @@ public abstract class CharacterBase : MonoBehaviour, ICharacterBase
 
     private Vector3 SnapPosition(Vector3 position)
     {
+        StepGameFeel();
+
         // Snapping to the nearest half unit grid (0.5 units)
         position.x = Mathf.Floor(position.x) + 0.5f;
         position.y = Mathf.Floor(position.y) + 0.5f;
@@ -161,4 +168,33 @@ public abstract class CharacterBase : MonoBehaviour, ICharacterBase
     private void OnTriggerEnter2D(Collider2D other) => _interactable = other.GetComponent<IInteractable>();
 
     private void OnTriggerExit2D(Collider2D other) => _interactable = null;
+
+    public void SetActive(bool state)
+    {
+        isActive = state;
+
+        // Optional: Perform additional actions like disabling input, animations, etc.
+        if (!state)
+        {
+            Debug.Log("Character deactivated (stepped on a trap).");
+        }
+        else
+        {
+            Debug.Log("Character activated for a new game.");
+        }
+    }
+    private void StepGameFeel()
+    {
+        // Configure and trigger game feel
+        GameFeel stepGameFeel = new GameFeel(
+            AudioManager.SoundType.FootStepSound, // Sound type
+            1f,                                   // Sound volume
+            0.1f,                                 // Shake duration
+            0.5f,                                 // Shake magnitude
+            EffectManager.EffectType.StepEffect,  // Effect type
+            transform.position                    // Source transform
+        );
+
+        stepGameFeel.Trigger();
+    }
 }

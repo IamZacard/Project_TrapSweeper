@@ -60,7 +60,6 @@ public class AudioManager : MonoBehaviour
     private static float volumeVar = 100f;
 
     public GameObject OptionsPanel;
-    public GameObject HTPPanel;
 
     [Range(0f, 1f)]
     public float volume = 1f; // Default volume value is 1 (maximum)
@@ -102,15 +101,16 @@ public class AudioManager : MonoBehaviour
         musicVolumeSlider.onValueChanged.AddListener(SetMusicVolume);
         effectsVolumeSlider.onValueChanged.AddListener(SetEffectsVolume);
 
-        musicPlayer.volume = 0.5f;
+        // Initialize the sliders with the actual volume values
+        musicVolumeSlider.value = musicPlayer.volume * 100f; // Convert to 0-100 range
+        effectsVolumeSlider.value = effectsPlayer.volume * 100f;
+
+        musicPlayer.volume = 0.5f; // Default to 50%
         effectsPlayer.volume = 0.5f;
     }
 
     private void Update()
     {
-        musicPlayerNumber.text = (musicPlayer.volume * 100f).ToString("F0");
-        effectsPlayerNumber.text = (effectsPlayer.volume * 100f).ToString("F0");
-
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             OptionsPanel.SetActive(false);
@@ -119,35 +119,30 @@ public class AudioManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P))
         {
             OptionsPanel.SetActive(!OptionsPanel.activeSelf);
-        }
 
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            HTPPanel.SetActive(!HTPPanel.activeSelf);
+            // Sync sliders and UI text with current AudioSource volume when panel is opened
+            if (OptionsPanel.activeSelf)
+            {
+                musicVolumeSlider.value = musicPlayer.volume * 100f;
+                effectsVolumeSlider.value = effectsPlayer.volume * 100f;
+
+                musicPlayerNumber.text = (musicPlayer.volume * 100f).ToString("F0");
+                effectsPlayerNumber.text = (effectsPlayer.volume * 100f).ToString("F0");
+            }
         }
     }
 
     private void SetMusicVolume(float volume)
     {
         musicPlayer.volume = volume / 100f; // Convert 0-100 range to 0-1 for AudioSource
-        musicPlayerNumber.text = volume.ToString("F0") + "%"; // Show the actual 0-100 value for the UI
+        musicPlayerNumber.text = volume.ToString("F0"); // Update slider text
     }
 
     private void SetEffectsVolume(float volume)
     {
         effectsPlayer.volume = volume / 100f; // Convert 0-100 range to 0-1 for AudioSource
-        effectsPlayerNumber.text = volume.ToString("F0") + "%"; // Show the actual 0-100 value for the UI
+        effectsPlayerNumber.text = volume.ToString("F0"); // Update slider text
     }
-
-    /*private void SetMusicVolume(float volume)
-    {
-        musicPlayer.volume = volume;
-    }
-
-    private void SetEffectsVolume(float volume)
-    {
-        effectsPlayer.volume = volume;
-    }*/
 
     public void ApplyMusicSettings()
     {
@@ -198,10 +193,5 @@ public class AudioManager : MonoBehaviour
     public void ToggleOptionsPanel()
     {
         OptionsPanel.SetActive(!OptionsPanel.activeSelf);
-    }
-
-    public void ToggleHTPPanel()
-    {
-        HTPPanel.SetActive(!HTPPanel.activeSelf);
     }
 }

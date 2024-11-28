@@ -13,8 +13,10 @@ public class ScreenShakeManager : MonoBehaviour
 
     private CinemachineVirtualCamera cinemachineVirtualCamera;
     private CinemachineBasicMultiChannelPerlin cinemachinePerlin;
+    private Transform mainCameraTransform;
     private float initialAmplitude;
     private float initialFrequency;
+    private Quaternion initialRotation;
 
     private void Awake()
     {
@@ -37,12 +39,14 @@ public class ScreenShakeManager : MonoBehaviour
 
     private void SetVirtualCameraReference()
     {
-        // Automatically find the CinemachineVirtualCamera in the scene
+        // Find the Cinemachine Virtual Camera in the scene
         cinemachineVirtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
 
         if (cinemachineVirtualCamera != null)
         {
             cinemachinePerlin = cinemachineVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+            mainCameraTransform = Camera.main.transform; // Cache the Main Camera's transform
+            initialRotation = mainCameraTransform.localRotation; // Save the initial rotation of the Main Camera
 
             if (cinemachinePerlin != null)
             {
@@ -92,8 +96,14 @@ public class ScreenShakeManager : MonoBehaviour
             yield return null;
         }
 
-        // Reset to initial values after shaking
+        // Reset to initial noise values after shaking
         cinemachinePerlin.m_AmplitudeGain = initialAmplitude;
         cinemachinePerlin.m_FrequencyGain = initialFrequency;
+
+        // Explicitly reset camera rotation to the original rotation
+        if (mainCameraTransform != null)
+        {
+            mainCameraTransform.localRotation = initialRotation;
+        }
     }
 }
