@@ -15,6 +15,8 @@ public class GamePlay : MonoBehaviour
     private CharacterBase player;
     public Vector2 startPos;
     public float flagCount;
+    public bool IsGameOver => gameOver;
+    public bool IsLevelComplete => levelComplete;
 
     private Board board;
     private CellGrid grid;
@@ -55,13 +57,10 @@ public class GamePlay : MonoBehaviour
             return;
         }
 
-        if (!gameOver)
-        {           
-            if (Input.GetMouseButtonDown(1))
-            {
-                Flag();
-            }
-        }
+        /*if (Input.GetMouseButtonDown(1) && !gameOver && !levelComplete)
+        {
+            Flag();
+        }*/
     }
 
     private void NewGame()
@@ -80,6 +79,8 @@ public class GamePlay : MonoBehaviour
         // Reset player
         player.transform.position = startPos;
         player.SetActive(true);
+
+        CalculateGameSettings();
     }
 
     private void Reveal()
@@ -163,15 +164,22 @@ public class GamePlay : MonoBehaviour
 
     private void Flag()
     {
-        if (!TryGetCellAtMousePosition(out Cell cell) || gameOver || levelComplete) return;
+        if (!TryGetCellAtMousePosition(out Cell cell) || cell.revealed) return;
 
-        if (!cell.revealed)
+        if (cell.flagged)
         {
-            cell.flagged = !cell.flagged;
-            board.Draw(grid);
-
-            CheckWinCondition();
+            cell.flagged = false;
+            flagCount += 1;
         }
+        else if (flagCount > 0)
+        {
+            cell.flagged = true;
+            flagCount -= 1;
+        }
+
+        board.Draw(grid);
+
+        CheckWinCondition();
     }
 
     private void Explode(Cell cell)
@@ -253,11 +261,16 @@ public class GamePlay : MonoBehaviour
     }
 
 
-    private bool TryGetCellAtMousePosition(out Cell cell)
+    public bool TryGetCellAtMousePosition(out Cell cell)
     {
         Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector3Int cellPosition = board.tilemap.WorldToCell(worldPosition);
         return grid.TryGetCell(cellPosition.x, cellPosition.y, out cell);
+    }
+
+    public void UpdateBoard()
+    {
+        board.Draw(grid);
     }
 
     public void PlayerMoved(Vector3 playerPosition)

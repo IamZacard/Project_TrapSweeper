@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.Rendering.Universal;
+using System.Collections.Generic;
 
 public abstract class CharacterBase : MonoBehaviour, ICharacterBase
 {
@@ -155,6 +156,11 @@ public abstract class CharacterBase : MonoBehaviour, ICharacterBase
         transform.localScale = originalScale;
     }
     #endregion
+
+
+    #region Casting
+    #endregion
+
     #region Interacting
     public void Interact()
     {
