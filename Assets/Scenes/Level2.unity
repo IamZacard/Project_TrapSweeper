@@ -1132,6 +1132,8 @@ MonoBehaviour:
   _characterModelScaleNumber: 1.2
   groundTileMap: {fileID: 1817712788}
   roomTileMap: {fileID: 1037116273}
+  timeToTriggerFlicker: 1
+  activeSpell: {fileID: 11400000, guid: af4a3a502249e274e9183280838c3ba7, type: 2}
 --- !u!114 &1641065348
 MonoBehaviour:
   m_ObjectHideFlags: 0

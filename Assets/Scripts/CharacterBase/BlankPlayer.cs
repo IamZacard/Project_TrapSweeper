@@ -9,27 +9,26 @@ public class BlankPlayer : CharacterBase
 
     private GamePlay gameplay;
 
-
-    private void Awake()
+    protected override void Awake()
     {
-        controls = new PlayerMovement();
+        base.Awake();
     }
 
-    private void Start()
+    protected override void Start()
     {
-        // Get the GamePlay instance in the scene
+        base.Start();
+
         gameplay = FindObjectOfType<GamePlay>();
 
         if (gameplay == null)
         {
             Debug.LogError("GamePlay instance not found in the scene.");
         }
-
-        controls.Main.Movement.performed += ctx => Move(ctx.ReadValue<Vector2>());
     }
 
-    private void Update()
+    protected override void Update()
     {
+        base.Update();
         if (Input.GetMouseButtonDown(1) && gameplay != null && !gameplay.IsGameOver && !gameplay.IsLevelComplete)
         {
             UseActiveSpell();

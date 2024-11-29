@@ -15,6 +15,9 @@ public class GamePlay : MonoBehaviour
     private CharacterBase player;
     public Vector2 startPos;
     public float flagCount;
+
+    [Header("Portal Block")]
+    [SerializeField] private GameObject magicBlock;
     public bool IsGameOver => gameOver;
     public bool IsLevelComplete => levelComplete;
 
@@ -56,11 +59,6 @@ public class GamePlay : MonoBehaviour
             NewGame();
             return;
         }
-
-        /*if (Input.GetMouseButtonDown(1) && !gameOver && !levelComplete)
-        {
-            Flag();
-        }*/
     }
 
     private void NewGame()
@@ -81,6 +79,12 @@ public class GamePlay : MonoBehaviour
         player.SetActive(true);
 
         CalculateGameSettings();
+        AudioManager.Instance.PlaySound(AudioManager.SoundType.LevelStartSound, 1f);
+
+        if (!magicBlock.activeSelf)
+        {
+            magicBlock.SetActive(true);
+        }
     }
 
     private void Reveal()
@@ -158,28 +162,10 @@ public class GamePlay : MonoBehaviour
                 }
             }
 
+            CheckWinCondition();
+
             yield return null; // Wait until the next frame to continue
         }
-    }
-
-    private void Flag()
-    {
-        if (!TryGetCellAtMousePosition(out Cell cell) || cell.revealed) return;
-
-        if (cell.flagged)
-        {
-            cell.flagged = false;
-            flagCount += 1;
-        }
-        else if (flagCount > 0)
-        {
-            cell.flagged = true;
-            flagCount -= 1;
-        }
-
-        board.Draw(grid);
-
-        CheckWinCondition();
     }
 
     private void Explode(Cell cell)
@@ -244,6 +230,8 @@ public class GamePlay : MonoBehaviour
         // If all conditions are met, the level is complete
         levelComplete = true;
 
+        AudioManager.Instance.PlaySound(AudioManager.SoundType.LevelComplete, 1f);
+
         // Automatically flag all traps as part of the win state
         for (int x = 0; x < width; x++)
         {
@@ -257,6 +245,9 @@ public class GamePlay : MonoBehaviour
             }
         }
 
+        board.Draw(grid);
+
+        magicBlock.SetActive(false);
         Debug.Log("Level Complete! You revealed all non-trap cells or flagged all traps.");
     }
 

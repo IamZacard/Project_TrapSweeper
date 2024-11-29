@@ -8,6 +8,10 @@ TagManager:
   - Board
   - Pillar
   - Shrine
+  - MagicBlock
+  - Portal
+  - Chest
+  - Shard
   layers:
   - Default
   - TransparentFX

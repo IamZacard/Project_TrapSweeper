@@ -20,13 +20,20 @@ public abstract class CharacterBase : MonoBehaviour, ICharacterBase
 
     private Light2D characterLight;
 
+    [Header("Flickering")]
+    private SpriteRenderer sr;
+    private GamePlay game;
+    private Coroutine flickerCoroutine;
+    private bool isOnNumberCell = false; // Track if the player is standing on a number cell
+    [SerializeField] private float timeToTriggerFlicker = 1f; // Time in seconds before flickering starts
+
     private bool _isInteractionKeyPressed => Input.GetKeyDown(KeyCode.E);
 
     private void OnEnable() => controls.Enable();
 
     private void OnDisable() => controls.Disable();
 
-    private void Awake()
+    protected virtual void Awake()
     {
         controls = new PlayerMovement();
         isActive = true;
@@ -41,18 +48,26 @@ public abstract class CharacterBase : MonoBehaviour, ICharacterBase
             characterLight.pointLightOuterRadius = stats._lightRadius;
             Debug.Log($"Initial Light Radius set to {stats._lightRadius}");
         }
+
+        sr = GetComponent<SpriteRenderer>();
+
+        game = FindObjectOfType<GamePlay>();
+        if (game == null)
+            Debug.LogError("GamePlay script not found in the scene!");
     }
 
-    private void Start()
+    protected virtual void Start()
     {
         controls.Main.Movement.performed += ctx => Move(ctx.ReadValue<Vector2>());
 
         originalScale = transform.localScale;
+
+        
     }
 
-    private void Update()
+    protected virtual void Update()
     {
-
+        Flickering();
     }
 
     #region Movement
@@ -133,7 +148,7 @@ public abstract class CharacterBase : MonoBehaviour, ICharacterBase
         if (game != null)
         {
             game.PlayerMoved(transform.position);
-        }
+        }        
 
         // Scale character after jump
         StartCoroutine(ScaleCharacter());
@@ -158,7 +173,91 @@ public abstract class CharacterBase : MonoBehaviour, ICharacterBase
     #endregion
 
 
-    #region Casting
+    #region Flickering   
+
+    private void Flickering()
+    {
+        if (IsOnNumberCell())
+        {
+            if (!isOnNumberCell)
+            {
+                isOnNumberCell = true;
+                Invoke(nameof(StartFlicker), timeToTriggerFlicker); // Start flickering after N seconds
+            }
+        }
+        else
+        {
+            if (isOnNumberCell)
+            {
+                isOnNumberCell = false;
+                CancelInvoke(nameof(StartFlicker)); // Cancel flickering if the player moves off the cell
+                StopFlicker();
+            }
+        }
+    }
+
+    // Method to start flickering when the player stands on a numbered cell
+    private void StartFlicker()
+    {
+        if (flickerCoroutine == null)
+        {
+            flickerCoroutine = StartCoroutine(FlickerSprite());
+        }
+    }
+
+    // Method to stop flickering
+    private void StopFlicker()
+    {
+        if (flickerCoroutine != null)
+        {
+            StopCoroutine(flickerCoroutine);
+            flickerCoroutine = null;
+
+            // Reset sprite transparency to full alpha
+            if (sr != null)
+            {
+                Color color = sr.color;
+                color.a = 1f; // Fully visible
+                sr.color = color;
+            }
+        }
+    }
+
+    // Coroutine to handle sprite flickering
+    private IEnumerator FlickerSprite()
+    {
+        if (sr == null) yield break;
+
+        while (true)
+        {
+            // Flicker to low alpha
+            Color color = sr.color;
+            color.a = 0.15f; // Low alpha
+            sr.color = color;
+            yield return new WaitForSeconds(1f); // Low alpha duration
+
+            // Flicker back to full alpha
+            color.a = 1f; // Full alpha
+            sr.color = color;
+            yield return new WaitForSeconds(1.5f); // Full alpha duration
+        }
+    }
+
+    private bool IsOnNumberCell()
+    {
+        // Implement logic to detect numbered cells
+        // Example: Check tile type or specific tag
+        Vector3Int gridPosition = groundTileMap.WorldToCell(transform.position);
+        TileBase currentTile = groundTileMap.GetTile(gridPosition);
+
+        if (currentTile != null && currentTile.name.Contains("Number")) // Adjust as needed
+        {
+            return true;
+        }
+
+        return false;
+    }
+
     #endregion
 
     #region Interacting

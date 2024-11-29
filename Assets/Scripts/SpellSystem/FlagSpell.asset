@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc379d3f68c75b147af14737797fa78e, type: 3}
   m_Name: FlagSpell
   m_EditorClassIdentifier: 
-  spellName: 
+  spellName: Flag
   description: 
   isPassive: 0
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 6ec85983c7d7c6d49a3235695bc82827, type: 3}
