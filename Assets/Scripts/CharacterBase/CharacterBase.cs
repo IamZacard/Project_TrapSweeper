@@ -68,6 +68,12 @@ public abstract class CharacterBase : MonoBehaviour, ICharacterBase
     protected virtual void Update()
     {
         Flickering();
+
+        if (_isInteractionKeyPressed)
+        {
+            Debug.Log("E key pressed for interaction");
+            Interact();
+        }
     }
 
     #region Movement
@@ -270,9 +276,25 @@ public abstract class CharacterBase : MonoBehaviour, ICharacterBase
     }
     #endregion
 
-    private void OnTriggerEnter2D(Collider2D other) => _interactable = other.GetComponent<IInteractable>();
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        var interactable = other.GetComponent<IInteractable>();
+        if (interactable != null)
+        {
+            Debug.Log($"Entered interactable: {other.gameObject.name}");
+            _interactable = interactable;
+        }
+    }
 
-    private void OnTriggerExit2D(Collider2D other) => _interactable = null;
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.GetComponent<IInteractable>() == _interactable)
+        {
+            Debug.Log($"Exited interactable: {other.gameObject.name}");
+            _interactable = null;
+        }
+    }
+
 
     public void SetActive(bool state)
     {
@@ -281,7 +303,7 @@ public abstract class CharacterBase : MonoBehaviour, ICharacterBase
         // Optional: Perform additional actions like disabling input, animations, etc.
         if (!state)
         {
-            Debug.Log("Character deactivated (stepped on a trap).");
+            Debug.Log("Character deactivated");
         }
         else
         {

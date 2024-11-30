@@ -1,188 +1,128 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class Shrine : MonoBehaviour
+public class Shrine : MonoBehaviour, IInteractable
 {
-    public GameObject[] orbs; // Array to store multiple orbs
-    public GameObject activateKey;
-    public GameObject explanationBanner;
-    public GameObject particles;
+    [Header("Shrine Settings")]
+    [SerializeField] private int maxOrbCount = 3;
+    [SerializeField] private int orbCount = 3; // Total orbs available
+    [SerializeField] private List<GameObject> orbs; // Assigned in the inspector
+    [SerializeField] private Transform orbContainer; // Optional parent object for orbs
 
-    public bool usingShrine = false;
-    public bool shrineCellSelection = false;
-    public bool shrineEmpty = false;
+    private bool isCellSelectionMode = false;
+    private GamePlay gamePlay;
+    private CharacterBase player;
 
-    public int maxCharges = 3; // Maximum number of charges
-    public int currentCharges;
-
-    void Start()
+    private void Awake()
     {
-        currentCharges = maxCharges; // Initialize current charges
+        // Cache GamePlay and player references
+        gamePlay = FindObjectOfType<GamePlay>();
+        player = FindObjectOfType<CharacterBase>();
 
-        if (activateKey != null)
+        // Validate the assigned orbs list
+        if (orbs.Count != maxOrbCount)
         {
-            activateKey.SetActive(false);
+            Debug.LogWarning($"Orbs list count ({orbs.Count}) does not match maxOrbCount ({maxOrbCount}). Adjust the list in the inspector.");
+            maxOrbCount = Mathf.Min(orbs.Count, maxOrbCount);
+            orbCount = maxOrbCount;
         }
-
-        if (explanationBanner != null)
-        {
-            explanationBanner.SetActive(false);
-        }
-
-        SetOrbsActive(true); // Ensure all orbs are active at the start
     }
 
-    void Update()
+    public void Interact()
     {
-        if (shrineEmpty)
+        if (!isCellSelectionMode)
         {
-            SetOrbsActive(false);
+            EnterCellSelectionMode();
         }
-
-        if (Input.GetKeyDown(KeyCode.N) || Input.GetKeyDown(KeyCode.R) || Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
+        else
         {
-            SetOrbsActive(true);
-            CancelShrineSelection();
+            Debug.LogWarning("Already in Cell Selection Mode. Use the exit key to leave.");
+        }
+    }
 
-            currentCharges = maxCharges;
+    private void EnterCellSelectionMode()
+    {
+        if (orbCount <= 0) return;
 
-            shrineEmpty = false;
-            usingShrine = false;
-            shrineCellSelection = false;
+        isCellSelectionMode = true;
+        player.SetActive(false); // Disable player movement
+    }
 
-            if (activateKey != null)
+    private void ExitCellSelectionMode()
+    {
+        if (!isCellSelectionMode) return;
+
+        isCellSelectionMode = false;
+        player.SetActive(true);
+        Debug.Log("Exited Cell Selection Mode.");
+    }
+
+    private void Update()
+    {
+        if (isCellSelectionMode)
+        {
+            // Exit Cell Selection Mode when E is pressed
+            if (Input.GetKeyDown(KeyCode.F))
             {
-                activateKey.SetActive(false);
+                Debug.Log("Exiting Cell Selection Mode...");
+                ExitCellSelectionMode();
             }
 
-            if (explanationBanner != null)
+            // Reveal cells with left mouse button
+            if (Input.GetMouseButtonDown(0) && orbCount > 0)
             {
-                explanationBanner.SetActive(false);
-            }
-        }
-
-        if (usingShrine && Input.GetKeyDown(KeyCode.Escape))
-        {
-            CancelShrineSelection();
-        }
-
-        if (currentCharges <= 0)
-        {
-            shrineEmpty = true;
-        }
-
-        if (shrineEmpty)
-        {
-            if (activateKey != null)
-            {
-                activateKey.SetActive(false);
-            }
-
-            if (explanationBanner != null)
-            {
-                explanationBanner.SetActive(false);
-            }
-
-            if (particles != null)
-            {
-                particles.SetActive(false);
+                if (gamePlay.TryGetCellAtMousePosition(out Cell cell) && IsValidCell(cell))
+                {
+                    Debug.Log($"Revealing cell at {cell.position}");
+                    cell.revealed = true;
+                    gamePlay.UpdateBoard();
+                    UseOrb();
+                }
             }
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void UseOrb()
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (orbCount <= 0) return;
+
+        orbCount--;
+
+        // Deactivate one orb visually
+        if (orbs.Count > 0)
         {
-            usingShrine = true;
+            var orb = orbs[maxOrbCount - orbCount - 1]; // Access orbs in sequence
+            orb.SetActive(false); // Disable the orb instead of destroying it
+        }
 
-            Debug.Log("CollidingPlayer");
-            if (activateKey != null)
-            {
-                activateKey.SetActive(true);
-            }
-
-            if (explanationBanner != null)
-            {
-                explanationBanner.SetActive(true);
-            }
+        // Exit Cell Selection Mode if all orbs are used
+        if (orbCount == 0)
+        {
+            Debug.Log("All orbs used!");
+            ExitCellSelectionMode();
         }
     }
 
-    private void OnTriggerExit2D(Collider2D other)
+    public void ResetOrbs()
     {
-        if (other.gameObject.CompareTag("Player"))
+        orbCount = maxOrbCount;
+
+        // Reactivate all orbs visually
+        for (int i = 0; i < maxOrbCount; i++)
         {
-            usingShrine = false;
-
-            Debug.Log("ExitCollidingPlayer");
-            if (activateKey != null)
-            {
-                activateKey.SetActive(false);
-            }
-
-            if (explanationBanner != null)
-            {
-                explanationBanner.SetActive(false);
-            }
-        }
-    }
-
-    public bool HasCharges()
-    {
-        return currentCharges > 0;
-    }
-
-    public void UseCharge()
-    {
-        if (currentCharges > 0)
-        {
-            currentCharges--;
-            UpdateOrbs();
-        }
-    }
-
-    private void SetOrbsActive(bool active)
-    {
-        foreach (GameObject orb in orbs)
-        {
-            orb.SetActive(active);
-        }
-    }
-
-    private void UpdateOrbs()
-    {
-        for (int i = 0; i < orbs.Length; i++)
-        {
-            if (i < currentCharges)
+            if (orbs[i] != null)
             {
                 orbs[i].SetActive(true);
             }
-            else
-            {
-                orbs[i].SetActive(false);
-            }
         }
+
+        Debug.Log("Orbs have been reset.");
     }
 
-    public void CancelShrineSelection()
+    private bool IsValidCell(Cell cell)
     {
-        shrineCellSelection = false;
-
-        if (activateKey != null)
-        {
-            activateKey.SetActive(false);
-        }
-
-        if (explanationBanner != null)
-        {
-            explanationBanner.SetActive(false);
-        }
-
-        if (particles != null)
-        {
-            particles.SetActive(false);
-        }
-
-        Debug.Log("Shrine cell selection cancelled");
+        // Ensure the cell can be revealed (not flagged, revealed, etc.)
+        return !cell.revealed && !cell.flagged && !gamePlay.IsGameOver;
     }
 }

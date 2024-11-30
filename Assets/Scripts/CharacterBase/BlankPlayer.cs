@@ -29,10 +29,16 @@ public class BlankPlayer : CharacterBase
     protected override void Update()
     {
         base.Update();
-        if (Input.GetMouseButtonDown(1) && gameplay != null && !gameplay.IsGameOver && !gameplay.IsLevelComplete)
+        if (CanUseSpell())
         {
             UseActiveSpell();
         }
+    }
+
+    private bool CanUseSpell()
+    {
+        return base.isActive && Input.GetMouseButtonDown(1) && gameplay != null &&
+               !gameplay.IsGameOver && !gameplay.IsLevelComplete;
     }
 
     public void UseActiveSpell()

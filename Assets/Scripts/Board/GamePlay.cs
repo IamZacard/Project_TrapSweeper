@@ -23,6 +23,7 @@ public class GamePlay : MonoBehaviour
 
     private Board board;
     private CellGrid grid;
+    [SerializeField] private Shrine shrine;
 
     private bool levelComplete;
     private bool gameOver;
@@ -78,6 +79,16 @@ public class GamePlay : MonoBehaviour
         player.transform.position = startPos;
         player.SetActive(true);
 
+        // Reset orbs in shrine
+        if (shrine != null)
+        {
+            shrine.ResetOrbs();
+        }
+        else
+        {
+            Debug.LogWarning("Shrine reference is missing in GamePlay script!");
+        }
+
         CalculateGameSettings();
         AudioManager.Instance.PlaySound(AudioManager.SoundType.LevelStartSound, 1f);
 
@@ -102,32 +113,53 @@ public class GamePlay : MonoBehaviour
         }
     }
 
-    private void Reveal(Cell cell)
+    public void RevealCellAtMouse()
+    {
+        if (TryGetCellAtMousePosition(out Cell cell))
+        {
+            if (!generated)
+            {
+                grid.GenerateTraps(cell, trapCount);
+                grid.GenerateNumbers();
+                generated = true;
+            }
+
+            Reveal(cell, ignoreTraps: true); // Prevent traps from exploding
+            CheckWinCondition(); // Ensure win condition check is done after reveal
+        }
+    }
+
+    private void Reveal(Cell cell, bool ignoreTraps = false)
     {
         if (cell.revealed || cell.flagged || gameOver || levelComplete) return;
 
         switch (cell.type)
         {
             case Cell.Type.Trap:
-                Explode(cell);
+                if (!ignoreTraps)
+                {
+                    Explode(cell);
+                }
+                else
+                {
+                    cell.revealed = true; // Reveal the trap without triggering explosion
+                }
                 break;
 
             case Cell.Type.Empty:
                 StartCoroutine(Flood(cell));
-                CheckWinCondition();
                 break;
 
             default:
                 cell.revealed = true;
-                CheckWinCondition();
                 break;
         }
 
+        // Check the win condition immediately after revealing
+        CheckWinCondition();
         CellRevealGameFeel(cell);
 
         board.Draw(grid);
-
-        CheckWinCondition();
     }
 
     private IEnumerator Flood(Cell startCell)
@@ -198,59 +230,75 @@ public class GamePlay : MonoBehaviour
     private void CheckWinCondition()
     {
         bool allNonTrapCellsRevealed = true;
-        bool allTrapsFlagged = true;
+        bool allTrapsCorrectlyFlagged = true;
 
-        // Iterate over the grid to check the win conditions
+        // Check if all non-trap cells are revealed and all traps are flagged or revealed
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < height; y++)
             {
                 Cell cell = grid[x, y];
 
-                // Check if any non-trap cell is not revealed
-                if (cell.type != Cell.Type.Trap && !cell.revealed)
+                // If it's a non-trap cell and not revealed, or flagged (incorrectly), it's a fail
+                if (cell.type != Cell.Type.Trap)
                 {
-                    allNonTrapCellsRevealed = false;
+                    if (!cell.revealed || cell.flagged)  // Non-trap cells must be revealed and not flagged
+                    {
+                        allNonTrapCellsRevealed = false;
+                    }
                 }
-
-                // Check if any trap cell is not flagged
-                if (cell.type == Cell.Type.Trap && !cell.flagged)
+                // If it's a trap cell, it must be either flagged or revealed (and not exploded)
+                else
                 {
-                    allTrapsFlagged = false;
-                }
-
-                // Exit early if either condition fails
-                if (!allNonTrapCellsRevealed && !allTrapsFlagged)
-                {
-                    return; // The player has not won yet
+                    if (!(cell.flagged || (cell.revealed && !cell.exploded)))
+                    {
+                        allTrapsCorrectlyFlagged = false;
+                    }
                 }
             }
         }
 
-        // If all conditions are met, the level is complete
-        levelComplete = true;
-
-        AudioManager.Instance.PlaySound(AudioManager.SoundType.LevelComplete, 1f);
-
-        // Automatically flag all traps as part of the win state
-        for (int x = 0; x < width; x++)
+        // If one of the conditions is true, mark level as complete
+        if (allNonTrapCellsRevealed || allTrapsCorrectlyFlagged)
         {
-            for (int y = 0; y < height; y++)
+            if (!levelComplete) // Check to avoid duplicate completion triggers
             {
-                Cell cell = grid[x, y];
-                if (cell.type == Cell.Type.Trap)
+                levelComplete = true;
+
+                // Flag all traps when the level is complete
+                for (int x = 0; x < width; x++)
                 {
-                    cell.flagged = true;
+                    for (int y = 0; y < height; y++)
+                    {
+                        Cell cell = grid[x, y];
+                        if (cell.type == Cell.Type.Trap)
+                        {
+                            cell.flagged = true;
+                        }
+                    }
                 }
+
+                AudioManager.Instance.PlaySound(AudioManager.SoundType.LevelComplete, 1f);
+
+                // Reveal all non-flagged, unrevealed cells
+                for (int x = 0; x < width; x++)
+                {
+                    for (int y = 0; y < height; y++)
+                    {
+                        Cell cell = grid[x, y];
+                        if (!cell.revealed && !cell.flagged) // Skip flagged cells
+                        {
+                            cell.revealed = true; // Reveal the cell
+                        }
+                    }
+                }
+
+                board.Draw(grid);
+                magicBlock.SetActive(false);
+                Debug.Log("Level Complete! You revealed all non-trap cells and flagged all traps.");
             }
         }
-
-        board.Draw(grid);
-
-        magicBlock.SetActive(false);
-        Debug.Log("Level Complete! You revealed all non-trap cells or flagged all traps.");
     }
-
 
     public bool TryGetCellAtMousePosition(out Cell cell)
     {
@@ -262,6 +310,7 @@ public class GamePlay : MonoBehaviour
     public void UpdateBoard()
     {
         board.Draw(grid);
+        CheckWinCondition();
     }
 
     public void PlayerMoved(Vector3 playerPosition)
