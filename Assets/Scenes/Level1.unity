@@ -1997,14 +1997,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: BlankPlayer
       objectReference: {fileID: 0}
-    - target: {fileID: 6993147590532740777, guid: b8ce34ab9f0211443a8d17f93cda680a, type: 3}
-      propertyPath: roomTileMap
-      value: 
-      objectReference: {fileID: 1037116273}
-    - target: {fileID: 6993147590532740777, guid: b8ce34ab9f0211443a8d17f93cda680a, type: 3}
-      propertyPath: groundTileMap
-      value: 
-      objectReference: {fileID: 1817712788}
     - target: {fileID: 8649390096853257295, guid: b8ce34ab9f0211443a8d17f93cda680a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.5

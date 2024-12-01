@@ -174,10 +174,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stats: {fileID: 11400000, guid: 168241a7b38139749853354e37c5a0ee, type: 2}
   _characterModelScaleNumber: 1.2
-  groundTileMap: {fileID: 0}
-  roomTileMap: {fileID: 0}
   timeToTriggerFlicker: 1
-  activeSpell: {fileID: 11400000, guid: af4a3a502249e274e9183280838c3ba7, type: 2}
+  spellBindings:
+  - spell: {fileID: 11400000, guid: af4a3a502249e274e9183280838c3ba7, type: 2}
+    activationKey: 324
+  - spell: {fileID: 11400000, guid: 89487d3a9a0c99f4192a448e88f514b4, type: 2}
+    activationKey: 323
 --- !u!114 &4828634817977372993
 MonoBehaviour:
   m_ObjectHideFlags: 0

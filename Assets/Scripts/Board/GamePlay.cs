@@ -36,6 +36,17 @@ public class GamePlay : MonoBehaviour
         SetupPlayer(); // Runs in the editor, ensures stats are updated
         CalculateGameSettings();
     }
+    private void OnEnable()
+    {
+        BlankPlayer.OnPlayerMoved += PlayerMoved;
+        TeleportSpell.OnPlayerTPed += PlayerMoved;
+    }
+
+    private void OnDisable()
+    {
+        BlankPlayer.OnPlayerMoved -= PlayerMoved;
+        TeleportSpell.OnPlayerTPed -= PlayerMoved;
+    }
 
     private void Awake()
     {
@@ -322,16 +333,17 @@ public class GamePlay : MonoBehaviour
         Vector3Int cellPosition = board.tilemap.WorldToCell(playerPosition);
         if (grid.TryGetCell(cellPosition.x, cellPosition.y, out Cell cell))
         {
-            if (!generated) // Generate traps only once
+            if (!generated)
             {
                 grid.GenerateTraps(cell, trapCount);
                 grid.GenerateNumbers();
                 generated = true;
             }
 
-            Reveal(cell); // Reveal the cell after generating traps
+            Reveal(cell);
         }
     }
+
     private void SetupPlayer()
     {
         if (player == null)

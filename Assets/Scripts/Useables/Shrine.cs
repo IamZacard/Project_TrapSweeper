@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,6 +14,10 @@ public class Shrine : MonoBehaviour, IInteractable
     private bool isCellSelectionMode = false;
     private GamePlay gamePlay;
     private CharacterBase player;
+
+    public static event Action OnEnterCellSelectionMode;
+    public static event Action OnExitCellSelectionMode;
+
 
     private void Awake()
     {
@@ -47,6 +52,9 @@ public class Shrine : MonoBehaviour, IInteractable
 
         isCellSelectionMode = true;
         player.SetActive(false); // Disable player movement
+
+        // Trigger the Enter Cell Selection Mode event
+        OnEnterCellSelectionMode?.Invoke();
     }
 
     private void ExitCellSelectionMode()
@@ -56,6 +64,9 @@ public class Shrine : MonoBehaviour, IInteractable
         isCellSelectionMode = false;
         player.SetActive(true);
         Debug.Log("Exited Cell Selection Mode.");
+
+        // Trigger the Exit Cell Selection Mode event
+        OnExitCellSelectionMode?.Invoke();
     }
 
     private void Update()

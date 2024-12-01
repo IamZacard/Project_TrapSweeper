@@ -9,6 +9,7 @@ public abstract class CharacterBase : MonoBehaviour, ICharacterBase
     [Header("CharacterBase")]
     public Stats stats;
     public PlayerMovement controls;
+    public static event System.Action<Vector3> OnPlayerMoved;
     public bool isActive { get; private set; } = true;
 
     private IInteractable _interactable;
@@ -42,9 +43,7 @@ public abstract class CharacterBase : MonoBehaviour, ICharacterBase
     {
         controls.Main.Movement.performed += ctx => Move(ctx.ReadValue<Vector2>());
 
-        originalScale = transform.localScale;
-
-        
+        originalScale = transform.localScale;        
     }
 
     protected virtual void Update()
@@ -129,12 +128,8 @@ public abstract class CharacterBase : MonoBehaviour, ICharacterBase
         // Snap to final position
         transform.position = SnapPosition(targetPosition);
 
-        // Notify GamePlay script
-        GamePlay game = FindObjectOfType<GamePlay>();
-        if (game != null)
-        {
-            game.PlayerMoved(transform.position);
-        }        
+        // Notify GamePlay script via event
+        OnPlayerMoved?.Invoke(transform.position);
 
         // Scale character after jump + start flicker if on number cell
         StartCoroutine(ScaleCharacter());

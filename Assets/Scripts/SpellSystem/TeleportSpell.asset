@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc379d3f68c75b147af14737797fa78e, type: 3}
-  m_Name: FlagSpell
+  m_Script: {fileID: 11500000, guid: c3dbcf9f031b55248a110d3c297c0d2b, type: 3}
+  m_Name: TeleportSpell
   m_EditorClassIdentifier: 
-  spellName: Flag
-  description: 
+  spellName: Bla
+  description: Teleporting to selected cell
   isPassive: 0
-  icon: {fileID: 21300000, guid: 6ec85983c7d7c6d49a3235695bc82827, type: 3}
+  icon: {fileID: 21300000, guid: 7c954b09fa8641b4cb3316694693a83c, type: 3}
   allowedCharacters: []

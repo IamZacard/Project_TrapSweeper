@@ -8,6 +8,18 @@ public class CellHighlighter : MonoBehaviour
 
     private GamePlay gamePlay; // Reference to the GamePlay script
 
+    private void OnEnable()
+    {
+        Shrine.OnEnterCellSelectionMode += HandleEnterCellSelectionMode;
+        Shrine.OnExitCellSelectionMode += HandleExitCellSelectionMode;
+    }
+
+    private void OnDisable()
+    {
+        Shrine.OnEnterCellSelectionMode -= HandleEnterCellSelectionMode;
+        Shrine.OnExitCellSelectionMode -= HandleExitCellSelectionMode;
+    }
+
     private void Awake()
     {
         if (highlightPrefab != null)
@@ -26,6 +38,8 @@ public class CellHighlighter : MonoBehaviour
         {
             Debug.LogError("GamePlay script not found in the scene!");
         }
+
+        SetHighlightColor(Color.yellow);
     }
 
     private void Update()
@@ -54,6 +68,30 @@ public class CellHighlighter : MonoBehaviour
             Debug.Log("Mouse is out of bounds");
             currentHighlight.SetActive(false);
             lastHighlightedCell = null;
+        }
+    }
+
+    private void HandleEnterCellSelectionMode()
+    {
+        // Change the highlight color to light blue
+        SetHighlightColor(Color.cyan);
+    }
+
+    private void HandleExitCellSelectionMode()
+    {
+        // Change the highlight color to yellow
+        SetHighlightColor(Color.yellow);
+    }
+
+    public void SetHighlightColor(Color color)
+    {
+        if (currentHighlight != null)
+        {
+            Renderer renderer = currentHighlight.GetComponent<Renderer>();
+            if (renderer != null)
+            {
+                renderer.material.color = color;
+            }
         }
     }
 
