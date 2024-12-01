@@ -38,7 +38,7 @@ public class BlankPlayer : CharacterBase
     private bool CanUseSpell()
     {
         return base.isActive && Input.GetMouseButtonDown(1) && gameplay != null &&
-               !gameplay.IsGameOver && !gameplay.IsLevelComplete;
+               !gameplay.IsGameOver && !gameplay.IsLevelComplete && gameplay.IsLevelGenerated;
     }
 
     public void UseActiveSpell()

@@ -10,6 +10,7 @@ public class GamePlay : MonoBehaviour
     public int height;
     public int trapCount;
     public float difficulty;
+    private Cell highlightedCell;
 
     [Header("Player's Settings")]
     private CharacterBase player;
@@ -20,6 +21,7 @@ public class GamePlay : MonoBehaviour
     [SerializeField] private GameObject magicBlock;
     public bool IsGameOver => gameOver;
     public bool IsLevelComplete => levelComplete;
+    public bool IsLevelGenerated => generated;
 
     private Board board;
     private CellGrid grid;
@@ -349,13 +351,13 @@ public class GamePlay : MonoBehaviour
         }
     }
 
-
     private void CalculateGameSettings()
     {
         trapCount = Mathf.Clamp(Mathf.RoundToInt((width * height) * difficulty), 0, width * height);
         flagCount = trapCount; // Match flag count with trap count
     }
 
+    #region GameFeel
     private void CellRevealGameFeel(Cell cell)
     {
         // Convert grid position to world position
@@ -373,4 +375,5 @@ public class GamePlay : MonoBehaviour
 
         revealGameFeel.Trigger();
     }
+    #endregion
 }

@@ -15,8 +15,8 @@ public abstract class CharacterBase : MonoBehaviour, ICharacterBase
     private Vector3 originalScale;
     public float _characterModelScaleNumber = 1.2f;
 
-    [SerializeField] private Tilemap groundTileMap;
-    [SerializeField] private Tilemap roomTileMap;
+    private Tilemap groundTileMap;
+    private Tilemap roomTileMap;
 
     private Light2D characterLight;
 
@@ -35,25 +35,7 @@ public abstract class CharacterBase : MonoBehaviour, ICharacterBase
 
     protected virtual void Awake()
     {
-        controls = new PlayerMovement();
-        isActive = true;
-
-        characterLight = GetComponentInChildren<Light2D>();
-        if (characterLight == null)
-        {
-            Debug.LogError("Light2D component not found. Ensure it's attached as a child object to the character.");
-        }
-        else if (stats != null)
-        {
-            characterLight.pointLightOuterRadius = stats._lightRadius;
-            Debug.Log($"Initial Light Radius set to {stats._lightRadius}");
-        }
-
-        sr = GetComponent<SpriteRenderer>();
-
-        game = FindObjectOfType<GamePlay>();
-        if (game == null)
-            Debug.LogError("GamePlay script not found in the scene!");
+        InitializeAwake();
     }
 
     protected virtual void Start()
@@ -67,8 +49,6 @@ public abstract class CharacterBase : MonoBehaviour, ICharacterBase
 
     protected virtual void Update()
     {
-        Flickering();
-
         if (_isInteractionKeyPressed)
         {
             Debug.Log("E key pressed for interaction");
@@ -156,8 +136,9 @@ public abstract class CharacterBase : MonoBehaviour, ICharacterBase
             game.PlayerMoved(transform.position);
         }        
 
-        // Scale character after jump
+        // Scale character after jump + start flicker if on number cell
         StartCoroutine(ScaleCharacter());
+        Flickering();
     }
 
     private Vector3 SnapPosition(Vector3 position)
@@ -295,6 +276,47 @@ public abstract class CharacterBase : MonoBehaviour, ICharacterBase
         }
     }
 
+    private void InitializeAwake()
+    {
+        controls = new PlayerMovement();
+        isActive = true;
+
+        characterLight = GetComponentInChildren<Light2D>();
+        if (characterLight == null)
+        {
+            Debug.LogError("Light2D component not found. Ensure it's attached as a child object to the character.");
+        }
+        else if (stats != null)
+        {
+            characterLight.pointLightOuterRadius = stats._lightRadius;
+            Debug.Log($"Initial Light Radius set to {stats._lightRadius}");
+        }
+
+        GameObject boardObject = GameObject.FindGameObjectWithTag("Board");
+        GameObject roomObject = GameObject.FindGameObjectWithTag("Room");
+        if (boardObject != null)
+        {
+            groundTileMap = boardObject.GetComponent<Tilemap>();
+        }
+        else
+        {
+            Debug.LogWarning("No GameObject with tag 'Board' found!");
+        }
+
+        if (roomObject != null)
+        {
+            roomTileMap = roomObject.GetComponent<Tilemap>();
+        }
+        else
+        {
+            Debug.LogWarning("No GameObject with tag 'Room' found!");
+        }
+        sr = GetComponent<SpriteRenderer>();
+
+        game = FindObjectOfType<GamePlay>();
+        if (game == null)
+            Debug.LogError("GamePlay script not found in the scene!");
+    }
 
     public void SetActive(bool state)
     {
