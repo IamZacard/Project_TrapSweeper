@@ -17,7 +17,12 @@ public class GamePlay : MonoBehaviour
     public float flagCount;
 
     private Board board;
+<<<<<<< Updated upstream
     private CellGrid grid;
+=======
+    public CellGrid grid;
+    [SerializeField] private Shrine shrine;
+>>>>>>> Stashed changes
 
     private bool levelComplete;
     private bool gameOver;
@@ -28,7 +33,10 @@ public class GamePlay : MonoBehaviour
         SetupPlayer(); // Runs in the editor, ensures stats are updated
         CalculateGameSettings();
     }
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
     private void Awake()
     {
         Application.targetFrameRate = 60;
@@ -64,7 +72,7 @@ public class GamePlay : MonoBehaviour
         }
     }
 
-    private void NewGame()
+    public void NewGame()
     {
         StopAllCoroutines();
 
@@ -274,7 +282,12 @@ public class GamePlay : MonoBehaviour
                 generated = true;
             }
 
+<<<<<<< Updated upstream
             Reveal(cell); // Reveal the cell after generating traps
+=======
+            Reveal(cell);
+            UpdateBoard();
+>>>>>>> Stashed changes
         }
     }
     private void SetupPlayer()

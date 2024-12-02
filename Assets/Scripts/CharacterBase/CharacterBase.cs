@@ -47,6 +47,12 @@ public abstract class CharacterBase : MonoBehaviour, ICharacterBase
         controls.Main.Movement.performed += ctx => Move(ctx.ReadValue<Vector2>());
 
         originalScale = transform.localScale;
+<<<<<<< Updated upstream
+=======
+
+        // Notify GamePlay script
+        GamePlay game = FindObjectOfType<GamePlay>();
+>>>>>>> Stashed changes
     }
 
     private void Update()
@@ -127,12 +133,18 @@ public abstract class CharacterBase : MonoBehaviour, ICharacterBase
         // Snap to final position
         transform.position = SnapPosition(targetPosition);
 
+<<<<<<< Updated upstream
         // Notify GamePlay script
         GamePlay game = FindObjectOfType<GamePlay>();
         if (game != null)
         {
             game.PlayerMoved(transform.position);
         }
+=======
+        
+        game.PlayerMoved(transform.position);
+        
+>>>>>>> Stashed changes
 
         // Scale character after jump
         StartCoroutine(ScaleCharacter());
