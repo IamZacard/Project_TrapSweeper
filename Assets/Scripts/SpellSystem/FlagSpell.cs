@@ -1,15 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "FlagSpell", menuName = "Spells/FlagSpell")]
 public class FlagSpell : Spell
 {
-    public override void Activate(CharacterBase character)
+    public override void Cast(CharacterBase character)
     {
-        base.Activate(character);
+        base.Cast(character);
 
-        // Reference to GamePlay for accessing the flagging logic
         GamePlay gamePlay = GameObject.FindObjectOfType<GamePlay>();
         if (gamePlay == null)
         {
@@ -17,10 +14,13 @@ public class FlagSpell : Spell
             return;
         }
 
-        // Attempt to flag a cell
         if (gamePlay.TryGetCellAtMousePosition(out Cell cell))
         {
-            if (cell.revealed) return;
+            if (cell.revealed)
+            {
+                Debug.Log("Cannot flag a revealed cell.");
+                return;
+            }
 
             if (cell.flagged)
             {
@@ -33,9 +33,8 @@ public class FlagSpell : Spell
                 gamePlay.flagCount -= 1;
             }
 
-            // Update board visuals
             gamePlay.UpdateBoard();
-            Debug.Log($"{spellName}: Flagging action performed.");
+            Debug.Log($"{spellName}: Cell flagged successfully.");
         }
         else
         {
@@ -43,4 +42,3 @@ public class FlagSpell : Spell
         }
     }
 }
-

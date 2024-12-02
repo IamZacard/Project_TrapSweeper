@@ -24,7 +24,7 @@ public class GamePlay : MonoBehaviour
     public bool IsLevelGenerated => generated;
 
     private Board board;
-    private CellGrid grid;
+    public CellGrid grid;
     [SerializeField] private Shrine shrine;
 
     private bool levelComplete;
@@ -35,17 +35,6 @@ public class GamePlay : MonoBehaviour
     {
         SetupPlayer(); // Runs in the editor, ensures stats are updated
         CalculateGameSettings();
-    }
-    private void OnEnable()
-    {
-        BlankPlayer.OnPlayerMoved += PlayerMoved;
-        TeleportSpell.OnPlayerTPed += PlayerMoved;
-    }
-
-    private void OnDisable()
-    {
-        BlankPlayer.OnPlayerMoved -= PlayerMoved;
-        TeleportSpell.OnPlayerTPed -= PlayerMoved;
     }
 
     private void Awake()
@@ -341,6 +330,7 @@ public class GamePlay : MonoBehaviour
             }
 
             Reveal(cell);
+            UpdateBoard();
         }
     }
 

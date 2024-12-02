@@ -1,19 +1,31 @@
 using UnityEngine;
-using System.Collections.Generic;
 
-[CreateAssetMenu(fileName = "NewSpell", menuName = "Spells/Spell")]
-public class Spell : ScriptableObject
+public abstract class Spell : ScriptableObject, ISpell
 {
     [Header("Spell Details")]
     public string spellName;
-    [TextArea] public string description;
-    public bool isPassive;
+    public string description;
     public Sprite icon;
-    public List<string> allowedCharacters;
 
-    public virtual void Activate(CharacterBase character)
+    [Header("Spell Mechanics")]
+    public int maxCasts;
+
+    protected int remainingCasts;
+
+    private void OnEnable()
     {
-        // Define default activation behavior if needed
-        Debug.Log($"{spellName} activated for {character.name}");
+        remainingCasts = maxCasts;
+    }
+
+    public virtual void Cast(CharacterBase character)
+    {
+        if (remainingCasts <= 0)
+        {
+            Debug.LogWarning($"{spellName} has no casts remaining.");
+            return;
+        }
+
+        remainingCasts--;
+        Debug.Log($"{spellName} casted. Remaining casts: {remainingCasts}");
     }
 }

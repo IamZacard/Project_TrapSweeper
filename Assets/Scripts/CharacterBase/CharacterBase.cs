@@ -9,7 +9,6 @@ public abstract class CharacterBase : MonoBehaviour, ICharacterBase
     [Header("CharacterBase")]
     public Stats stats;
     public PlayerMovement controls;
-    public static event System.Action<Vector3> OnPlayerMoved;
     public bool isActive { get; private set; } = true;
 
     private IInteractable _interactable;
@@ -43,7 +42,7 @@ public abstract class CharacterBase : MonoBehaviour, ICharacterBase
     {
         controls.Main.Movement.performed += ctx => Move(ctx.ReadValue<Vector2>());
 
-        originalScale = transform.localScale;        
+        originalScale = transform.localScale;
     }
 
     protected virtual void Update()
@@ -102,12 +101,11 @@ public abstract class CharacterBase : MonoBehaviour, ICharacterBase
 
     private IEnumerator JumpToPosition(Vector3 targetPosition)
     {
-        float jumpHeight = 0.4f; // Height of the jump
-        float jumpDuration = 0.05f; // Duration of the jump
+        float jumpHeight = 0.4f;
+        float jumpDuration = 0.05f;
         Vector3 startPosition = transform.position;
         Vector3 peakPosition = startPosition + new Vector3(0, jumpHeight, 0);
 
-        // Move to peak position
         float elapsed = 0f;
         while (elapsed < jumpDuration / 2)
         {
@@ -116,7 +114,6 @@ public abstract class CharacterBase : MonoBehaviour, ICharacterBase
             yield return null;
         }
 
-        // Move to target position
         elapsed = 0f;
         while (elapsed < jumpDuration / 2)
         {
@@ -125,13 +122,14 @@ public abstract class CharacterBase : MonoBehaviour, ICharacterBase
             yield return null;
         }
 
-        // Snap to final position
         transform.position = SnapPosition(targetPosition);
 
-        // Notify GamePlay script via event
-        OnPlayerMoved?.Invoke(transform.position);
+        // Notify GamePlay script        
+        if (game != null)
+        {
+            game.PlayerMoved(transform.position);
+        }
 
-        // Scale character after jump + start flicker if on number cell
         StartCoroutine(ScaleCharacter());
         Flickering();
     }
@@ -306,8 +304,8 @@ public abstract class CharacterBase : MonoBehaviour, ICharacterBase
         {
             Debug.LogWarning("No GameObject with tag 'Room' found!");
         }
-        sr = GetComponent<SpriteRenderer>();
 
+        sr = GetComponent<SpriteRenderer>();
         game = FindObjectOfType<GamePlay>();
         if (game == null)
             Debug.LogError("GamePlay script not found in the scene!");
