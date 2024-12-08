@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 8580462910962206092}
   - component: {fileID: 4828634817977372993}
   - component: {fileID: 5283042661074895506}
+  - component: {fileID: 8840841435156732637}
+  - component: {fileID: 5722206463544500378}
   m_Layer: 0
   m_Name: Sage
   m_TagString: Player
@@ -79,7 +81,7 @@ SpriteRenderer:
   m_SortingOrder: 1
   m_Sprite: {fileID: 171722849, guid: 6931c88a39384aa448e859c2290280ed, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1, y: 1}
@@ -231,3 +233,36 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8840841435156732637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 957317527975094548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9241eee4d423b5e40b00f4b4a80f579c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stats: {fileID: 11400000, guid: 0d3f253e639bba74ca8b633c85039a93, type: 2}
+  _characterModelScaleNumber: 1.2
+  characterAnimator: {fileID: 5722206463544500378}
+  timeToTriggerFlicker: 1
+  spells:
+  - {fileID: 11400000, guid: d6235a0d92db63a499ea1cce9954a0d5, type: 2}
+  - {fileID: 11400000, guid: 3b8c6ca727b44c741ab6004fc83ff528, type: 2}
+--- !u!114 &5722206463544500378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 957317527975094548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c216b78fcf6cc9344826e692c22a051c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 5283042661074895506}
+  spriteRenderer: {fileID: 3723704429690970971}

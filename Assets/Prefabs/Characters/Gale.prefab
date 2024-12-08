@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 8580462910962206092}
   - component: {fileID: 4828634817977372993}
   - component: {fileID: 4716418658565497020}
+  - component: {fileID: 1887032952545024615}
+  - component: {fileID: 3767604775647746451}
   m_Layer: 0
   m_Name: Gale
   m_TagString: Player
@@ -33,7 +35,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1389014623304403637}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3723704429690970971
@@ -79,7 +82,7 @@ SpriteRenderer:
   m_SortingOrder: 1
   m_Sprite: {fileID: 1768485574, guid: 98e4b10f79f582a409ff5d93058664f3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1, y: 1}
@@ -231,3 +234,104 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1887032952545024615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 957317527975094548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9da988a36365c9546b85ab67410a1329, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stats: {fileID: 11400000, guid: 8327719695ac7d84099b5f88f1d7ff09, type: 2}
+  _characterModelScaleNumber: 1.2
+  characterAnimator: {fileID: 3767604775647746451}
+  timeToTriggerFlicker: 1
+  spells:
+  - {fileID: 11400000, guid: d6235a0d92db63a499ea1cce9954a0d5, type: 2}
+  - {fileID: 11400000, guid: 716e8e79f6c396c43968052e59b2faf4, type: 2}
+  shardCount: 0
+  requiredShardsForTrapReveal: 3
+--- !u!114 &3767604775647746451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 957317527975094548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c216b78fcf6cc9344826e692c22a051c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 4716418658565497020}
+  spriteRenderer: {fileID: 3723704429690970971}
+--- !u!1001 &3203851285685568994
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 8649390096853257295}
+    m_Modifications:
+    - target: {fileID: 1586456452431284440, guid: 2c56d51fb366cb9478428ce8d32fb3ea, type: 3}
+      propertyPath: m_Name
+      value: GalesMagicScent
+      objectReference: {fileID: 0}
+    - target: {fileID: 4553307129877253975, guid: 2c56d51fb366cb9478428ce8d32fb3ea, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4553307129877253975, guid: 2c56d51fb366cb9478428ce8d32fb3ea, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4553307129877253975, guid: 2c56d51fb366cb9478428ce8d32fb3ea, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4553307129877253975, guid: 2c56d51fb366cb9478428ce8d32fb3ea, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4553307129877253975, guid: 2c56d51fb366cb9478428ce8d32fb3ea, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4553307129877253975, guid: 2c56d51fb366cb9478428ce8d32fb3ea, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4553307129877253975, guid: 2c56d51fb366cb9478428ce8d32fb3ea, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4553307129877253975, guid: 2c56d51fb366cb9478428ce8d32fb3ea, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4553307129877253975, guid: 2c56d51fb366cb9478428ce8d32fb3ea, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4553307129877253975, guid: 2c56d51fb366cb9478428ce8d32fb3ea, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8856406186297068749, guid: 2c56d51fb366cb9478428ce8d32fb3ea, type: 3}
+      propertyPath: simulationSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2c56d51fb366cb9478428ce8d32fb3ea, type: 3}
+--- !u!4 &1389014623304403637 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4553307129877253975, guid: 2c56d51fb366cb9478428ce8d32fb3ea, type: 3}
+  m_PrefabInstance: {fileID: 3203851285685568994}
+  m_PrefabAsset: {fileID: 0}

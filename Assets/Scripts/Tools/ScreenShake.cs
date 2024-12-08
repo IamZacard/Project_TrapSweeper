@@ -17,6 +17,7 @@ public class ScreenShakeManager : MonoBehaviour
     private float initialAmplitude;
     private float initialFrequency;
     private Quaternion initialRotation;
+    private Vector3 intialPosition;
 
     private void Awake()
     {
@@ -47,6 +48,7 @@ public class ScreenShakeManager : MonoBehaviour
             cinemachinePerlin = cinemachineVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
             mainCameraTransform = Camera.main.transform; // Cache the Main Camera's transform
             initialRotation = mainCameraTransform.localRotation; // Save the initial rotation of the Main Camera
+            intialPosition = mainCameraTransform.localPosition; // Save the initial rotation of the Main Camera
 
             if (cinemachinePerlin != null)
             {
@@ -104,6 +106,7 @@ public class ScreenShakeManager : MonoBehaviour
         if (mainCameraTransform != null)
         {
             mainCameraTransform.localRotation = initialRotation;
+            mainCameraTransform.localPosition = intialPosition;
         }
     }
 }

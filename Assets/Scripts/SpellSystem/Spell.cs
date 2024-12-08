@@ -28,4 +28,10 @@ public abstract class Spell : ScriptableObject, ISpell
         remainingCasts--;
         Debug.Log($"{spellName} casted. Remaining casts: {remainingCasts}");
     }
+
+    public void ResetCastCount()
+    {
+        remainingCasts = maxCasts;
+        Debug.Log($"Spell '{name}' cast count reset to {maxCasts}");
+    }
 }

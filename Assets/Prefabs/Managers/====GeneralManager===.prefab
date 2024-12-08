@@ -170,7 +170,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: f298c5a8ed9ffc84394204ff95e27452, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -322,7 +322,27 @@ MonoBehaviour:
   - soundType: 7
     audioClip: {fileID: 8300000, guid: a4eea7c015ed57046b84a27d999d744d, type: 3}
   - soundType: 8
-    audioClip: {fileID: 8300000, guid: a7b8a3f3bc4af8e46add7c7fea692f47, type: 3}
+    audioClip: {fileID: 8300000, guid: 4266184bf01307d4581e6f38120c8ebb, type: 3}
+  - soundType: 12
+    audioClip: {fileID: 8300000, guid: d5770764c868622409b2e11337566f8c, type: 3}
+  - soundType: 13
+    audioClip: {fileID: 8300000, guid: abbebd297d38a9e44b710a7f6e94a73b, type: 3}
+  - soundType: 16
+    audioClip: {fileID: 8300000, guid: ce2b97cacf674af4a8c2bc55f74a8df0, type: 3}
+  - soundType: 17
+    audioClip: {fileID: 8300000, guid: ce2b97cacf674af4a8c2bc55f74a8df0, type: 3}
+  - soundType: 18
+    audioClip: {fileID: 8300000, guid: ce2b97cacf674af4a8c2bc55f74a8df0, type: 3}
+  - soundType: 19
+    audioClip: {fileID: 8300000, guid: ce2b97cacf674af4a8c2bc55f74a8df0, type: 3}
+  - soundType: 20
+    audioClip: {fileID: 8300000, guid: ce2b97cacf674af4a8c2bc55f74a8df0, type: 3}
+  - soundType: 21
+    audioClip: {fileID: 8300000, guid: ce2b97cacf674af4a8c2bc55f74a8df0, type: 3}
+  - soundType: 23
+    audioClip: {fileID: 8300000, guid: ce2b97cacf674af4a8c2bc55f74a8df0, type: 3}
+  - soundType: 11
+    audioClip: {fileID: 8300000, guid: 0c020d2d80502c9429e79933be24f1c1, type: 3}
   musicVolumeSlider: {fileID: 0}
   effectsVolumeSlider: {fileID: 0}
   musicPlayer: {fileID: 2677118593177835345}
@@ -362,3 +382,7 @@ MonoBehaviour:
     prefab: {fileID: 5402626375564937643, guid: 322962f5f36a0ed41885925ecde01aa7, type: 3}
   - type: 1
     prefab: {fileID: 4725550167897462378, guid: 1f5f0f1379dfe064cbbf56b7b6dc207b, type: 3}
+  - type: 3
+    prefab: {fileID: 4725550167897462378, guid: 1f5f0f1379dfe064cbbf56b7b6dc207b, type: 3}
+  - type: 5
+    prefab: {fileID: 3926038303051175376, guid: 5c8cd8e5f06ad01408a072625eab046d, type: 3}

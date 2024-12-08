@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 8580462910962206092}
   - component: {fileID: 4828634817977372993}
   - component: {fileID: 8341584931428468880}
+  - component: {fileID: -6364299915854546134}
+  - component: {fileID: 4401472346742617979}
   m_Layer: 0
   m_Name: Violet
   m_TagString: Player
@@ -79,7 +81,7 @@ SpriteRenderer:
   m_SortingOrder: 1
   m_Sprite: {fileID: 2116414535, guid: 15111ef6823ce644090a1b56ebf80197, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1, y: 1}
@@ -231,3 +233,36 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-6364299915854546134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 957317527975094548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7d28417ecd43dd4692f127291fd5ba0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stats: {fileID: 11400000, guid: bca221821ac371547ba19aafb26fb3fd, type: 2}
+  _characterModelScaleNumber: 1.2
+  characterAnimator: {fileID: 4401472346742617979}
+  timeToTriggerFlicker: 1
+  spells:
+  - {fileID: 11400000, guid: d6235a0d92db63a499ea1cce9954a0d5, type: 2}
+  - {fileID: 11400000, guid: 364d3346a61ba204e81d9ad3ce51ed40, type: 2}
+--- !u!114 &4401472346742617979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 957317527975094548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c216b78fcf6cc9344826e692c22a051c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 8341584931428468880}
+  spriteRenderer: {fileID: 3723704429690970971}

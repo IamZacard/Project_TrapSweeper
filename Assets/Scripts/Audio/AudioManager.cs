@@ -24,7 +24,7 @@ public class AudioManager : MonoBehaviour
 
         GaleBlast,
         GalePickUp,
-        VioletTeleport,
+        TeleportSound,
         MysticInvincible,
         SageReveal,
         ShuffProc,

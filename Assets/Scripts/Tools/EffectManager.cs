@@ -8,7 +8,11 @@ public class EffectManager : MonoBehaviour
     {
         StepEffect,
         CellRevealEffect,
-        TrapExplosionEffect
+        TrapExplosionEffect,
+        FlagPlacementEffect,
+        TeleportEffect,
+        PortalDistractionEffect,
+        RevealCellsSpellEffect,
     }
 
     [System.Serializable]

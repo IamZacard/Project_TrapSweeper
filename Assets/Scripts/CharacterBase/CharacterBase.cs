@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.Rendering.Universal;
 using System.Collections.Generic;
+using System;
 
 public abstract class CharacterBase : MonoBehaviour, ICharacterBase
 {
@@ -20,8 +21,9 @@ public abstract class CharacterBase : MonoBehaviour, ICharacterBase
 
     private Light2D characterLight;
 
-    [Header("Flickering")]
+    [Header("Flickering && animating")]
     private SpriteRenderer sr;
+    [SerializeField] private CharacterAnimator characterAnimator;
     private GamePlay game;
     private Coroutine flickerCoroutine;
     private bool isOnNumberCell = false; // Track if the player is standing on a number cell
@@ -75,6 +77,9 @@ public abstract class CharacterBase : MonoBehaviour, ICharacterBase
             // Perform the jump
             Vector3 targetPosition = transform.position + (Vector3)direction;
             StartCoroutine(JumpToPosition(targetPosition)); // Ensure this is the only call to JumpToPosition
+
+            // Animate movement
+            characterAnimator.AnimateMove(direction);
         }
     }
 
@@ -123,6 +128,7 @@ public abstract class CharacterBase : MonoBehaviour, ICharacterBase
         }
 
         transform.position = SnapPosition(targetPosition);
+        StepGameFeel();
 
         // Notify GamePlay script        
         if (game != null)
@@ -131,13 +137,12 @@ public abstract class CharacterBase : MonoBehaviour, ICharacterBase
         }
 
         StartCoroutine(ScaleCharacter());
+
         Flickering();
     }
 
     private Vector3 SnapPosition(Vector3 position)
     {
-        StepGameFeel();
-
         // Snapping to the nearest half unit grid (0.5 units)
         position.x = Mathf.Floor(position.x) + 0.5f;
         position.y = Mathf.Floor(position.y) + 0.5f;
@@ -250,7 +255,7 @@ public abstract class CharacterBase : MonoBehaviour, ICharacterBase
     }
     #endregion
 
-    private void OnTriggerEnter2D(Collider2D other)
+    protected virtual void OnTriggerEnter2D(Collider2D other)
     {
         var interactable = other.GetComponent<IInteractable>();
         if (interactable != null)
@@ -325,6 +330,13 @@ public abstract class CharacterBase : MonoBehaviour, ICharacterBase
             Debug.Log("Character activated for a new game.");
         }
     }
+
+    public virtual void OnTrapStepped(Cell cell, Action defaultExplosionAction)
+    {
+        // Default behavior: Execute the normal explosion logic
+        defaultExplosionAction.Invoke();
+    }
+
     private void StepGameFeel()
     {
         // Configure and trigger game feel

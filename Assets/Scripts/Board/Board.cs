@@ -100,14 +100,24 @@ public class Board : MonoBehaviour
         }
     }
 
-    private Tile GetRevealedTile(Cell cell)
+    private TileBase GetRevealedTile(Cell cell)
     {
         switch (cell.type)
         {
-            case Cell.Type.Empty: return tileEmpty;
-            case Cell.Type.Trap: return cell.exploded ? tileExploded : tileTrap;
-            case Cell.Type.Number: return GetNumberTile(cell);
-            default: return null;
+            case Cell.Type.Empty:
+                return tileEmpty;
+
+            case Cell.Type.Trap:
+                // Show flag tile if trap is flagged
+                if (cell.flagged)
+                    return tileFlag_anim;
+                return cell.exploded ? tileExploded : tileTrap;
+
+            case Cell.Type.Number:
+                return GetNumberTile(cell);
+
+            default:
+                return null;
         }
     }
 
