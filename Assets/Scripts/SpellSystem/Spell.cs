@@ -24,14 +24,20 @@ public abstract class Spell : ScriptableObject, ISpell
             return;
         }
 
-        // Decrement remaining casts
+        Debug.Log($"{spellName} casted.");
+        // The decrement now happens after derived logic handles the spell effects.
+    }
+
+    public void SpellDecrement()
+    {
         remainingCasts--;
         Debug.Log($"{spellName} casted. Remaining casts: {remainingCasts}");
     }
 
     public void ResetCastCount()
     {
-        remainingCasts = maxCasts; // Explicitly reset casts during game restart
+        remainingCasts = maxCasts;
         Debug.Log($"Spell '{name}' cast count reset to {maxCasts}");
     }
 }
+

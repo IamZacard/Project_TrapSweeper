@@ -15,5 +15,5 @@ MonoBehaviour:
   spellName: Arcane Insight
   description: Reveal all cells around character
   icon: {fileID: 21300000, guid: 22ee6fb0113c3084ca5766e69dbc2593, type: 3}
-  maxCasts: 2
-  remainingCasts: 2
+  maxCasts: 3
+  remainingCasts: 0

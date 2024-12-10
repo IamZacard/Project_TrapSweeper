@@ -58,14 +58,14 @@ public class CellHighlighter : MonoBehaviour
             lastHighlightedCell = cell;
 
             // Debugging position
-            Debug.Log($"Highlighting Cell at {cell.position}");
+            //Debug.Log($"Highlighting Cell at {cell.position}");
 
             currentHighlight.SetActive(true);
             currentHighlight.transform.position = new Vector3(cell.position.x + 0.5f, cell.position.y + 0.5f, 5f);
         }
         else
         {
-            Debug.Log("Mouse is out of bounds");
+            //Debug.Log("Mouse is out of bounds");
             currentHighlight.SetActive(false);
             lastHighlightedCell = null;
         }

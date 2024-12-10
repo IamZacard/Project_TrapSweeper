@@ -99,8 +99,6 @@ public class GamePlay : MonoBehaviour
         AudioManager.Instance.PlaySound(AudioManager.SoundType.LevelStartSound, 1f);
 
         //Shrine thing
-
-        // Reset orbs in shrine
         if (shrine != null)
         {
             shrine.ResetOrbs();

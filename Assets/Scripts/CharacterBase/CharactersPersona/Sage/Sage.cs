@@ -38,6 +38,14 @@ public class Sage : CharacterBase
         {
             CastSpell(1); // Cast the second spell
         }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            foreach (Spell spell in spells)
+            {
+                spell.ResetCastCount(); // Reset casts for each spell
+            }
+        }
     }
 
     public void CastSpell(int index)

@@ -5,9 +5,12 @@ public class RevealSurroundingsSpell : Spell
 {
     public override void Cast(CharacterBase character)
     {
-        base.Cast(character);
+        if (remainingCasts <= 0)
+        {
+            Debug.LogWarning($"{spellName} has no casts remaining.");
+            return;
+        }
 
-        // Find the GamePlay instance
         GamePlay gamePlay = GameObject.FindObjectOfType<GamePlay>();
         if (gamePlay == null)
         {
@@ -15,14 +18,12 @@ public class RevealSurroundingsSpell : Spell
             return;
         }
 
-        // Validate game state
         if (!gamePlay.IsLevelGenerated || gamePlay.IsGameOver || gamePlay.IsLevelComplete)
         {
             Debug.LogWarning("Cannot cast spell under current game conditions.");
             return;
         }
 
-        // Get character's position
         Vector2Int characterPosition = gamePlay.GetCellPosition(character.transform.position);
         if (characterPosition == Vector2Int.zero)
         {
@@ -30,7 +31,6 @@ public class RevealSurroundingsSpell : Spell
             return;
         }
 
-        // Reveal surrounding cells
         for (int x = -1; x <= 1; x++)
         {
             for (int y = -1; y <= 1; y++)
@@ -38,23 +38,25 @@ public class RevealSurroundingsSpell : Spell
                 Vector2Int targetPosition = characterPosition + new Vector2Int(x, y);
 
                 if (gamePlay.TryGetCellAtPosition(targetPosition, out Cell cell))
-                {                    
+                {
                     if (!cell.revealed)
                     {
-                        cell.revealed = true;                       
-
+                        cell.revealed = true;
                         gamePlay.UpdateBoard();
                     }
                 }
             }
         }
 
-        // Trigger game feel only on the cell where the character is
         if (gamePlay.TryGetCellAtPosition(characterPosition, out Cell characterCell))
         {
             RevealSurCellsGameFeel(characterCell);
         }
+
         Debug.Log($"{spellName}: Revealed all surrounding cells.");
+
+        // Decrement cast count only after successful execution
+        base.SpellDecrement();
     }
 
     private void RevealSurCellsGameFeel(Cell cell)
