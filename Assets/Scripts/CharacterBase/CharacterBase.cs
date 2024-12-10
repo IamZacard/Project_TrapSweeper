@@ -29,6 +29,10 @@ public abstract class CharacterBase : MonoBehaviour, ICharacterBase
     private bool isOnNumberCell = false; // Track if the player is standing on a number cell
     [SerializeField] private float timeToTriggerFlicker = 1f; // Time in seconds before flickering starts
 
+    [Header("Customization")]
+    public Transform castPoint;
+    public Color spellColor = Color.white; // Default color for spells
+
     private bool _isInteractionKeyPressed => Input.GetKeyDown(KeyCode.E);
 
     private void OnEnable() => controls.Enable();

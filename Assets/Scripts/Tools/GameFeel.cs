@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 public class GameFeel
 {
     private AudioManager.SoundType soundType;

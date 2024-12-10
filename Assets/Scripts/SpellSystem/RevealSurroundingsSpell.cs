@@ -38,12 +38,10 @@ public class RevealSurroundingsSpell : Spell
                 Vector2Int targetPosition = characterPosition + new Vector2Int(x, y);
 
                 if (gamePlay.TryGetCellAtPosition(targetPosition, out Cell cell))
-                {
+                {                    
                     if (!cell.revealed)
                     {
-                        cell.revealed = true;
-
-                        RevealSurCellsGameFeel(cell);
+                        cell.revealed = true;                       
 
                         gamePlay.UpdateBoard();
                     }
@@ -51,6 +49,11 @@ public class RevealSurroundingsSpell : Spell
             }
         }
 
+        // Trigger game feel only on the cell where the character is
+        if (gamePlay.TryGetCellAtPosition(characterPosition, out Cell characterCell))
+        {
+            RevealSurCellsGameFeel(characterCell);
+        }
         Debug.Log($"{spellName}: Revealed all surrounding cells.");
     }
 

@@ -67,4 +67,24 @@ public class EffectManager : MonoBehaviour
             Debug.LogWarning($"Effect of type {effectType} is not registered in EffectManager.");
         }
     }
+
+    public void TriggerEffectWColor(EffectType effectType, Vector3 position, Quaternion rotation, Color? color = null)
+    {
+        if (effectDictionary.TryGetValue(effectType, out GameObject prefab))
+        {
+            GameObject instance = Instantiate(prefab, position, rotation);
+
+            // Modify particle color if applicable
+            var particleSystem = instance.GetComponent<ParticleSystem>();
+            if (particleSystem != null && color.HasValue)
+            {
+                var mainModule = particleSystem.main;
+                mainModule.startColor = color.Value;
+            }
+        }
+        else
+        {
+            Debug.LogWarning($"Effect of type {effectType} not registered in EffectManager.");
+        }
+    }
 }

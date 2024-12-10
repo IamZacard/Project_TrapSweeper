@@ -35,7 +35,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.4, y: 1.4, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 316304695802410656}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3723704429690970971
@@ -249,9 +250,12 @@ MonoBehaviour:
   _characterModelScaleNumber: 1.2
   characterAnimator: {fileID: 1628399702349978156}
   timeToTriggerFlicker: 1
+  castPoint: {fileID: 316304695802410656}
+  spellColor: {r: 0.882353, g: 0.43921572, b: 0.050980397, a: 1}
   spells:
   - {fileID: 11400000, guid: d6235a0d92db63a499ea1cce9954a0d5, type: 2}
   - {fileID: 11400000, guid: df0e70d9995d77b4782fdba553ccba5d, type: 2}
+  isInvincible: 0
 --- !u!114 &1628399702349978156
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -266,3 +270,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 4259193435353638854}
   spriteRenderer: {fileID: 3723704429690970971}
+  castPoint: {fileID: 316304695802410656}
+--- !u!1 &8369112527679039918
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 316304695802410656}
+  m_Layer: 0
+  m_Name: CastPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 7422848464349959988, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &316304695802410656
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8369112527679039918}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.3, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8649390096853257295}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -5,6 +5,7 @@ public class Sage : CharacterBase
 {
     [Header("Character Spells")]
     public List<Spell> spells = new List<Spell>();
+
     protected override void Awake()
     {
         base.Awake();
@@ -17,7 +18,12 @@ public class Sage : CharacterBase
         // Assign spells dynamically
         Spell flagSpell = Resources.Load<Spell>("FlagSpell");
 
-        if (flagSpell != null) spells.Add(flagSpell);
+        if (flagSpell != null)
+        {
+            // Create a unique runtime instance of the spell
+            Spell flagSpellInstance = ScriptableObject.Instantiate(flagSpell);
+            spells.Add(flagSpellInstance);
+        }
     }
 
     protected override void Update()
@@ -33,6 +39,7 @@ public class Sage : CharacterBase
             CastSpell(1); // Cast the second spell
         }
     }
+
     public void CastSpell(int index)
     {
         if (index >= 0 && index < spells.Count)

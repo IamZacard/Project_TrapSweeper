@@ -9,8 +9,7 @@ public abstract class Spell : ScriptableObject, ISpell
 
     [Header("Spell Mechanics")]
     public int maxCasts;
-
-    protected int remainingCasts;
+    public int remainingCasts;
 
     private void OnEnable()
     {
@@ -25,13 +24,14 @@ public abstract class Spell : ScriptableObject, ISpell
             return;
         }
 
+        // Decrement remaining casts
         remainingCasts--;
         Debug.Log($"{spellName} casted. Remaining casts: {remainingCasts}");
     }
 
     public void ResetCastCount()
     {
-        remainingCasts = maxCasts;
+        remainingCasts = maxCasts; // Explicitly reset casts during game restart
         Debug.Log($"Spell '{name}' cast count reset to {maxCasts}");
     }
 }

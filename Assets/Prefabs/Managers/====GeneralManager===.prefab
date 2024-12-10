@@ -330,17 +330,17 @@ MonoBehaviour:
   - soundType: 16
     audioClip: {fileID: 8300000, guid: ce2b97cacf674af4a8c2bc55f74a8df0, type: 3}
   - soundType: 17
-    audioClip: {fileID: 8300000, guid: ce2b97cacf674af4a8c2bc55f74a8df0, type: 3}
+    audioClip: {fileID: 8300000, guid: 064f6dbfc5e4ec94282e5e4afb9fbf63, type: 3}
   - soundType: 18
-    audioClip: {fileID: 8300000, guid: ce2b97cacf674af4a8c2bc55f74a8df0, type: 3}
+    audioClip: {fileID: 8300000, guid: 910be13ec8b0c9744af34c4581b96654, type: 3}
   - soundType: 19
-    audioClip: {fileID: 8300000, guid: ce2b97cacf674af4a8c2bc55f74a8df0, type: 3}
+    audioClip: {fileID: 8300000, guid: cbe4e790589cecf4a9c258a0c997a3b8, type: 3}
   - soundType: 20
-    audioClip: {fileID: 8300000, guid: ce2b97cacf674af4a8c2bc55f74a8df0, type: 3}
+    audioClip: {fileID: 8300000, guid: fc6cf7e9df31a8645b66f2de0e9488f1, type: 3}
   - soundType: 21
-    audioClip: {fileID: 8300000, guid: ce2b97cacf674af4a8c2bc55f74a8df0, type: 3}
+    audioClip: {fileID: 8300000, guid: 19e25ba1dcdec3f4794fc476c2e05428, type: 3}
   - soundType: 23
-    audioClip: {fileID: 8300000, guid: ce2b97cacf674af4a8c2bc55f74a8df0, type: 3}
+    audioClip: {fileID: 8300000, guid: 08f942d78fb5d2d4f8529eb053701020, type: 3}
   - soundType: 11
     audioClip: {fileID: 8300000, guid: 0c020d2d80502c9429e79933be24f1c1, type: 3}
   musicVolumeSlider: {fileID: 0}
@@ -383,6 +383,12 @@ MonoBehaviour:
   - type: 1
     prefab: {fileID: 4725550167897462378, guid: 1f5f0f1379dfe064cbbf56b7b6dc207b, type: 3}
   - type: 3
-    prefab: {fileID: 4725550167897462378, guid: 1f5f0f1379dfe064cbbf56b7b6dc207b, type: 3}
+    prefab: {fileID: 7804876350352913934, guid: c3ee6928c7917b744abb9d025bfc02cf, type: 3}
   - type: 5
     prefab: {fileID: 3926038303051175376, guid: 5c8cd8e5f06ad01408a072625eab046d, type: 3}
+  - type: 4
+    prefab: {fileID: 5402626375564937643, guid: e3df400b0881b2f4ca1d6997342ca172, type: 3}
+  - type: 2
+    prefab: {fileID: 5402626375564937643, guid: e3df400b0881b2f4ca1d6997342ca172, type: 3}
+  - type: 6
+    prefab: {fileID: 1771938648824201637, guid: 9c4a8458539eebc419346e9ce5808733, type: 3}

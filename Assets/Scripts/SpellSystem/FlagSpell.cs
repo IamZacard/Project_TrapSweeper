@@ -36,12 +36,14 @@ public class FlagSpell : Spell
                 cell.flagged = false; // Unflag the cell
                 gamePlay.flagCount += 1;
                 FlagGameFeel(cell);
+                EffectManager.Instance.TriggerEffectWColor(EffectManager.EffectType.FlagPlacementEffect, character.castPoint.transform.position, Quaternion.identity, character.spellColor);
             }
             else if (gamePlay.flagCount > 0)
             {
                 cell.flagged = true; // Flag the cell
                 gamePlay.flagCount -= 1;
                 FlagGameFeel(cell);
+                
             }
 
             gamePlay.UpdateBoard();
@@ -62,10 +64,11 @@ public class FlagSpell : Spell
             1f,                                   // Sound volume
             0.1f,                                 // Shake duration
             0.5f,                                 // Shake magnitude
-            EffectManager.EffectType.FlagPlacementEffect,  // Effect type
-            (cell.position + new Vector3(.5f, .5f, 0f))                   // Source transform
+            EffectManager.EffectType.StepEffect,  // Effect type
+            (cell.position + new Vector3(.5f, 0.15f, 0f))                   // Source transform
+
         );
 
         flagGameFeel.Trigger();
-    }
+    }    
 }

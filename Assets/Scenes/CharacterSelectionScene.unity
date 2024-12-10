@@ -2818,18 +2818,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4270931382595018206, guid: 9168d47d8fc76ae418380f29acd4da79, type: 3}
-      propertyPath: effectPrefabs.Array.size
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4270931382595018206, guid: 9168d47d8fc76ae418380f29acd4da79, type: 3}
-      propertyPath: effectPrefabs.Array.data[4].type
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 4270931382595018206, guid: 9168d47d8fc76ae418380f29acd4da79, type: 3}
-      propertyPath: effectPrefabs.Array.data[4].prefab
-      value: 
-      objectReference: {fileID: 5402626375564937643, guid: e3df400b0881b2f4ca1d6997342ca172, type: 3}
     - target: {fileID: 4737004449292413197, guid: 9168d47d8fc76ae418380f29acd4da79, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
