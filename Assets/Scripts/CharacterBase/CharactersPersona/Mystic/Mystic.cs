@@ -9,12 +9,12 @@ public class Mystic : CharacterBase
     public bool isInvincible = false; // Track invincibility state
     private int remainingInvincibleSteps = 0;
 
-    private CharacterAnimator characterAnimator;
+    private CharacterAnimator mysticAnimator;
 
     protected override void Awake()
     {
         base.Awake();
-        characterAnimator = GetComponent<CharacterAnimator>();
+        mysticAnimator = GetComponent<CharacterAnimator>();
     }
 
     protected override void Update()
@@ -30,7 +30,10 @@ public class Mystic : CharacterBase
             CastSpell(1); // Cast the second spell (left click)
         }
 
-        if(Input.GetKeyDown(KeyCode.R)) { ResetState(); }  
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            ResetState(); 
+        }  
     }
 
     public void CastSpell(int index)
@@ -79,7 +82,7 @@ public class Mystic : CharacterBase
     private void SetInvincibilityState(bool state)
     {
         isInvincible = state;
-        characterAnimator?.SetInvincibility(state);
+        mysticAnimator?.SetInvincibility(state);
     }
 
     public void ResetState()
@@ -92,8 +95,12 @@ public class Mystic : CharacterBase
             spell.ResetCastCount(); // Reset cast count for each spell
         }
 
+        // Update animator to reflect invincibility state
+        mysticAnimator?.SetInvincibility(false);
+
         Debug.Log("Mystic state has been reset.");
     }
+
 
     private void DecrementInvincibilitySteps()
     {

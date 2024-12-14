@@ -48,6 +48,7 @@ public class Gale : CharacterBase
         if (other.CompareTag("Shard"))
         {
             shardCount++;
+            AudioManager.Instance.PlaySound(AudioManager.SoundType.GalePickUp, 1f);
             Destroy(other.gameObject); // Destroy the shard
             Debug.Log($"Magic Shard collected! Total: {shardCount}");
         }

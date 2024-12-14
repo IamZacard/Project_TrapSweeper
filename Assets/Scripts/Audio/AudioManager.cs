@@ -8,9 +8,11 @@ public class AudioManager : MonoBehaviour
     public enum SoundType
     {
         EnterWordSound,
+
         CharacterPick,
         ButtonClick,
         ErrorSound,
+
         LevelStartSound,
         FootStepSound,
         LevelComplete,
@@ -22,13 +24,19 @@ public class AudioManager : MonoBehaviour
         PortalSound,
         FlagSpell,
 
+        GaleShardSpawn,
         GaleBlast,
         GalePickUp,
+
         TeleportSound,
+
         MysticInvincible,
+
         SageReveal,
+
         ShuffProc,
         ShuffExplotion,
+
         CatMeowSound,
 
         TalkSound,               

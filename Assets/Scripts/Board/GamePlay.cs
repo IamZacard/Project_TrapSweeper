@@ -185,9 +185,14 @@ public class GamePlay : MonoBehaviour
         }
 
         // If Gale is the active character, attempt to spawn a shard
-        if (player is Gale) // Assuming player inherits from CharacterBase
-        {            
-            shardmanager?.TrySpawnShard(cell, width, height);
+        if (player is Gale && player != null) // Check for active Gale
+        {
+            Vector2Int characterPosition = new Vector2Int(
+                Mathf.FloorToInt(player.transform.position.x),
+                Mathf.FloorToInt(player.transform.position.y)
+            );
+
+            shardmanager.TrySpawnShard(cell, width, height, characterPosition);
         }
 
         // Check the win condition immediately after revealing
@@ -261,6 +266,8 @@ public class GamePlay : MonoBehaviour
                     }
                 }
 
+                AudioManager.Instance.PlaySound(AudioManager.SoundType.LoseStepOnTrap, 1f);
+
                 Debug.Log("Game Over! You stepped on a trap.");
             });
         }
@@ -317,8 +324,6 @@ public class GamePlay : MonoBehaviour
                         }
                     }
                 }
-
-                AudioManager.Instance.PlaySound(AudioManager.SoundType.LevelComplete, 1f);
 
                 // Reveal all non-flagged, unrevealed cells
                 for (int x = 0; x < width; x++)

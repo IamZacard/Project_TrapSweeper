@@ -42,6 +42,7 @@ public abstract class CharacterBase : MonoBehaviour, ICharacterBase
     protected virtual void Awake()
     {
         InitializeAwake();
+        characterAnimator = GetComponent<CharacterAnimator>();
     }
 
     protected virtual void Start()
@@ -66,6 +67,7 @@ public abstract class CharacterBase : MonoBehaviour, ICharacterBase
         if (!isActive)
         {
             // Play an error sound
+            UIWarningPopup.Instance.ShowPopup("Can't move!");
             AudioManager.Instance.PlaySound(AudioManager.SoundType.ErrorSound, 1f);
             return; // Prevent movement if the player is not active
         }

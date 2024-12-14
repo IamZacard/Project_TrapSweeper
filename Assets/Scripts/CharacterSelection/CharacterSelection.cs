@@ -28,13 +28,6 @@ public class CharacterSelection : MonoBehaviour
         sageButton.onClick.AddListener(() => SelectCharacter("Sage"));
         shufflegrinButton.onClick.AddListener(() => SelectCharacter("Shufflegrin"));
         startGameButton.onClick.AddListener(StartGame);
-
-        // Add hover scaling to each button
-        AddHoverEffects(galeButton);
-        AddHoverEffects(violetButton);
-        AddHoverEffects(mysticButton);
-        AddHoverEffects(sageButton);
-        AddHoverEffects(shufflegrinButton);
     }
 
     private void SelectCharacter(string characterName)
@@ -59,42 +52,5 @@ public class CharacterSelection : MonoBehaviour
 
         // Load the next scene
         SceneManager.LoadScene("Level1");
-    }
-
-    private void AddHoverEffects(Button button)
-    {
-        // Add EventTrigger component if not already present
-        EventTrigger trigger = button.gameObject.GetComponent<EventTrigger>();
-        if (trigger == null)
-        {
-            trigger = button.gameObject.AddComponent<EventTrigger>();
-        }
-
-        // Add PointerEnter event for scaling up
-        EventTrigger.Entry entryEnter = new EventTrigger.Entry
-        {
-            eventID = EventTriggerType.PointerEnter
-        };
-        entryEnter.callback.AddListener((data) => OnHoverEnter(button));
-        trigger.triggers.Add(entryEnter);
-
-        // Add PointerExit event for scaling down
-        EventTrigger.Entry entryExit = new EventTrigger.Entry
-        {
-            eventID = EventTriggerType.PointerExit
-        };
-        entryExit.callback.AddListener((data) => OnHoverExit(button));
-        trigger.triggers.Add(entryExit);
-    }
-
-    private void OnHoverEnter(Button button)
-    {
-        button.transform.localScale = Vector3.one * 1.2f; // Scale to 1.2
-        AudioManager.Instance.PlaySound(AudioManager.SoundType.ButtonClick, 1f);
-    }
-
-    private void OnHoverExit(Button button)
-    {
-        button.transform.localScale = Vector3.one; // Reset to default scale
     }
 }

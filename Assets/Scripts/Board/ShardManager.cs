@@ -10,18 +10,29 @@ public class ShardManager : MonoBehaviour
     private List<GameObject> spawnedShards = new List<GameObject>();
 
     // Called when a cell is revealed
-    public void TrySpawnShard(Cell cell, int gridWidth, int gridHeight)
+    public void TrySpawnShard(Cell cell, int gridWidth, int gridHeight, Vector2Int characterPosition)
     {
         // 50% chance to spawn a shard
         if (Random.value <= spawnChance)
         {
-            // Spawn shard at a random position within the grid
-            Vector2Int spawnPosition = GetRandomPosition(gridWidth, gridHeight);
+            Vector2Int spawnPosition;
+
+            // Ensure the spawn position is at least 1 cell away from the character
+            do
+            {
+                spawnPosition = GetRandomPosition(gridWidth, gridHeight);
+            }
+            while (Vector2Int.Distance(spawnPosition, characterPosition) < 1);
+
             if (IsWithinGridBounds(spawnPosition, gridWidth, gridHeight))
             {
                 Vector3 worldPosition = new Vector3(spawnPosition.x + 0.5f, spawnPosition.y + 0.5f, 0);
                 GameObject randomShardPrefab = shardPrefabs[Random.Range(0, shardPrefabs.Count)];
+
                 GameObject shard = Instantiate(randomShardPrefab, worldPosition, Quaternion.identity, shardParent);
+
+                AudioManager.Instance.PlaySound(AudioManager.SoundType.GaleShardSpawn, 1f);
+
                 spawnedShards.Add(shard);
             }
             else
